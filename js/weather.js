@@ -11,11 +11,30 @@ const getCityData = async cityName => {
     }
 
     const [cityData] = await response.json()
-    console.log(cityData)
+    return cityData
 
   } catch ({ name, message }) {
     alert(`${name}: ${message}`)
   }
 }
 
-getCityData('São Paulo')
+const getCityWeather = async cityName => {
+  try {
+    const { Key } = await getCityData(cityName)
+    const cityWaetherUrl = `http://dataservice.accuweather.com/currentconditions/v1/${Key}?apikey=${APIKey}`
+    const response = await fetch(cityWaetherUrl)
+
+    if (!response.ok) {
+      throw new Error('Não foi possível obter os dados')
+    }
+
+    const [cityWeatherData] = await response.json()
+    debugger
+    return cityWeatherData
+
+  } catch ({ name, message }) {
+    alert(`${name}: ${message}`)
+  }
+}
+
+getCityWeather('São Paulo')
